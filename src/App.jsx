@@ -1,25 +1,39 @@
-import { useContext, useEffect } from 'react'
-import './App.css'
-import SoundList from './components/SoundList'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import './index.css'
+
 import Home from './pages/Home'
-import SignIn from './googleSigning/signIn'
-import { AuthContext } from './context/AuthContext'
+import Contact from './pages/Contact'
+import Error from './pages/Error'
+import SharedLayout from './components/SharedLayout'
+import { About } from './pages/About'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <SharedLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
+      },
+      {
+        path: '*',
+        element: <Error />,
+      },
+    ],
+  },
+])
 
 function App() {
-  const { login, loadUserToLocalStorage } = useContext(AuthContext)
-
-  useEffect(() => {
-    loadUserToLocalStorage()
-  }, [])
-
-  return (
-    <>
-      {/* <button onClick={login}>Login</button> */}
-      {/* <Home /> */}
-      <SoundList />
-      <SignIn />
-    </>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App

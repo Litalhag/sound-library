@@ -7,7 +7,7 @@ import {
   collection,
   addDoc,
   getFirestore,
-  getDoc,
+  getDocs,
   doc,
 } from 'firebase/firestore'
 
@@ -36,9 +36,13 @@ export const getById = async (collectionName, id) => {
     const docRef = doc(db, collectionName, id)
     console.log('docRef:', docRef)
     console.log('collection name:', collectionName)
-    const result = await getDoc(docRef)
-    const data = result.data()
-    console.log('item from firestore:', data)
+    const results = await getDocs(_getCollection(collectionName))
+    const data = results.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+    console.log('results from getById:', data)
+    return data.find((doc) => doc.id === id)
   } catch (err) {
     console.error('Error adding document: ', err)
   }

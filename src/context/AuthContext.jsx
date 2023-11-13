@@ -9,7 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
 
   const saveUserToLocalStorage = (user) => {
-    console.log(user)
+    console.log('user from save user from local storage', user)
+    // if there's no user - don't save to local storage
+    if (!user) return
     localStorage.setItem(
       'user',
       JSON.stringify({
@@ -20,26 +22,29 @@ export const AuthProvider = ({ children }) => {
     )
   }
 
-  const loadUserToLocalStorage = () => {
+  const loadUserFromLocalStorage = () => {
     const stringUser = localStorage.getItem('user')
     if (!stringUser) return null
     const user = JSON.parse(stringUser)
-    setUser(user)
     return user
   }
 
   async function login() {
     try {
       const result = await signInWithPopup(auth, provider)
-      console.log(result)
+      console.log('Result:', result)
       // gives you a Google Access Token
       const credential = GoogleAuthProvider.credentialFromResult(result)
       const token = credential.accessToken
       // signed-in user info
-      const user = result.user
-      const userFromDb = await getById('user', user.id)
-      saveUserToLocalStorage(user)
-      console.log(user)
+      const user = result?.user
+      const userFromLocalStorage = loadUserFromLocalStorage()
+      console.log('user from auth context:', user)
+
+      const userFromDb = await getById('user', userFromLocalStorage.id)
+      console.log('userFromDb:', userFromDb)
+      saveUserToLocalStorage(userFromDb)
+      console.log('Google User From Login:', user)
       setUser(user)
     } catch (error) {
       console.log(error)
@@ -50,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       const email = error.customData.email
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error)
-      console.log(credential)
+      console.log('credential:', credential)
     }
   }
 
@@ -65,7 +70,7 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
-        loadUserToLocalStorage,
+        loadUserFromLocalStorage,
         saveUserToLocalStorage,
       }}
     >

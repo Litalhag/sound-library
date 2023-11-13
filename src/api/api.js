@@ -15,22 +15,28 @@ const request = async (method, endpoint, data = null) => {
     url: `${BASE_URL}/${endpoint}`,
     data,
   })
-  return res.data
+  // each query is an object with a results array
+  return res.data.results
 }
 
-export const getAllSounds = async (queryType = QUERY_TYPES[0]) => {
+export const getAllSounds = async () => {
   try {
-    const endpoint = `?query=${queryType}&${FIELDS}&token=${API_KEY}`
+    const promises = QUERY_TYPES.map((queryType) => {
+      const endpoint = `?query=${queryType}&${FIELDS}&token=${API_KEY}`
+      return request('get', endpoint)
+    })
 
-    const rawData = await request('get', endpoint)
-    return clearSounds(rawData)
+    const res = await Promise.all(promises)
+    const rawDatas = []
+    res.forEach((arr) => rawDatas.push(...arr))
+    return _clearSounds(rawDatas)
   } catch (error) {
     console.log(error)
   }
 }
 
-function clearSounds(rawData) {
-  const dirtySounds = rawData.results
+function _clearSounds(rawDatas) {
+  const dirtySounds = rawDatas
   // console.log(dirtySounds)
   return dirtySounds.map((dirtySound) => {
     return {

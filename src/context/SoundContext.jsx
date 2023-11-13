@@ -7,23 +7,15 @@ import { QUERY_TYPES } from '../api/constants'
 export const SoundContext = createContext()
 
 export const SoundProvider = ({ children }) => {
-  const [sounds, setSounds] = useState({})
+  const [sounds, setSounds] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const fetchSoundForAllTypes = async () => {
-    setIsLoading(true)
-    setError(null)
-
-    const soundsResults = {}
-
+  const fetchSound = async () => {
     try {
-      for (const type of QUERY_TYPES) {
-        const soundData = await getAllSounds(type)
-        soundsResults[type] = soundData
-        // console.log(soundData)
-      }
-      setSounds(soundsResults)
+      const soundData = await getAllSounds()
+      // console.log(soundData)
+      setSounds(soundData)
       setIsLoading(false)
     } catch (err) {
       setError(err.message)
@@ -32,7 +24,7 @@ export const SoundProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    fetchSoundForAllTypes()
+    fetchSound()
   }, [])
 
   // const addNewShoe = async (shoe) => {

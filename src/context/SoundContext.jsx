@@ -1,13 +1,15 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 
-import { getAllSounds } from '../api/api'
-
-import { QUERY_TYPES } from '../api/constants'
+import { getAllSounds, getSoundById } from '../api/api'
+import { saveSound } from '../services/sound.service'
+import { AuthContext } from './AuthContext'
 
 export const SoundContext = createContext()
 
 export const SoundProvider = ({ children }) => {
+  const { user, updateUserSavedSounds } = useContext(AuthContext)
   const [sounds, setSounds] = useState([])
+  const [savedSounds, setSavedSounds] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -26,6 +28,64 @@ export const SoundProvider = ({ children }) => {
   useEffect(() => {
     fetchSound()
   }, [])
+
+  // i need to ensure these functions are properly called when a sound is saved or removed.
+  // This will update the savedSounds state, causing any component that uses this state to re-render with the new data.
+
+  const addSound = async (sound) => {
+    // Check if the sound is already saved
+    const isAlreadySaved = user.savedSounds.includes(sound.id)
+    if (isAlreadySaved) {
+      // Maybe show a notification or handle this scenario
+      return
+    }
+    console.log('sound context: Attempting to add sound with ID: ', sound.id)
+
+    try {
+      // Save the sound ID to Firestore
+      await saveSound(sound.id, user.uid)
+
+      // Fetch detailed information for the sound
+      const detailedSound = await getSoundById(sound.id)
+
+      // Update the savedSounds state with the detailed sound information
+      setSavedSounds((prevSavedSounds) => [...prevSavedSounds, detailedSound])
+
+      // calling updateUserSavedSounds from user context:
+      updateUserSavedSounds(sound.id)
+      console.log('sound context: Sound added successfully: ', detailedSound)
+    } catch (error) {
+      console.error('Error updating saved sounds: ', error)
+      throw error
+    }
+  }
+
+  // update the 'savedSound' state
+  const removeSound = (soundId) => {
+    const soundIdStr = soundId.toString() // Convert to string if it's not already
+    setSavedSounds((prevSounds) => {
+      const newSavedSounds = prevSounds.filter(
+        (sound) => sound.id !== soundIdStr
+      )
+      console.log('Updated savedSounds:', newSavedSounds)
+      return newSavedSounds
+    })
+  }
+
+  // const downloadSound = (soundId) => {
+  //   const downloadUrl = getDownloadUrl(soundId)
+  //   if (!downloadUrl) {
+  //     console.error('Download URL not found for sound ID:', soundId)
+  //     return
+  //   }
+
+  //   // Here you can either return the URL or directly trigger the download in the browser
+  //   window.open(downloadUrl, '_blank')
+  // }
+
+  const clearError = () => {
+    setError(null)
+  }
 
   // const addNewShoe = async (shoe) => {
   //   try {
@@ -59,29 +119,17 @@ export const SoundProvider = ({ children }) => {
   //   }
   // }
 
-  const clearError = () => {
-    setError(null)
-  }
-
-  // const showToast = (message) => {
-  //   toast.success(message, {
-  //     position: 'top-center',
-  //     autoClose: 5000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: false,
-  //     progress: undefined,
-  //   })
-  // }
   return (
     <SoundContext.Provider
       value={{
         sounds,
+        savedSounds,
+        addSound,
+        removeSound,
+        setSavedSounds,
+        fetchSound,
         isLoading,
         error,
-        // addNewSound,
-        // removeSound,
         clearError,
       }}
     >
@@ -89,3 +137,15 @@ export const SoundProvider = ({ children }) => {
     </SoundContext.Provider>
   )
 }
+
+// const showToast = (message) => {
+//   toast.success(message, {
+//     position: 'top-center',
+//     autoClose: 5000,
+//     hideProgressBar: false,
+//     closeOnClick: true,
+//     pauseOnHover: true,
+//     draggable: false,
+//     progress: undefined,
+//   })
+// }

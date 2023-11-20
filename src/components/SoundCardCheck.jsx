@@ -11,7 +11,7 @@ import {
 import DownloadIcon from '@mui/icons-material/Download'
 
 const SoundCardCheck = ({ sound }) => {
-  const onSaveSound = (soundId) => {
+  const saveSound = (soundId) => {
     console.log(soundId)
   }
 
@@ -100,7 +100,7 @@ const SoundCardCheck = ({ sound }) => {
             flexDirection: 'raw',
           }}
         >
-          <Button variant="outlined" onClick={() => onSaveSound(sound.id)}>
+          <Button variant="outlined" onClick={() => saveSound(sound.id)}>
             Save Sound
           </Button>
           <a

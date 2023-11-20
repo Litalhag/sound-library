@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
 import {
   Typography,
   IconButton,
@@ -9,10 +11,23 @@ import {
   MenuItem,
 } from '@mui/material'
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
-
 const NavOptions = () => {
   const [anchorElUser, setAnchorElUser] = useState(null)
+  const { user, login, logout } = useContext(AuthContext)
+
+  const navigate = useNavigate()
+
+  const handleMenuItemClick = (setting) => {
+    if (setting === 'SignIn') {
+      login()
+    } else if (setting === 'Logout') {
+      logout()
+    } else if (setting === 'Profile') {
+      navigate('/user-profile')
+    }
+    handleCloseUserMenu()
+    console.log(user)
+  }
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
@@ -22,12 +37,18 @@ const NavOptions = () => {
     setAnchorElUser(null)
   }
 
+  const settings = user ? ['Profile', 'Logout'] : ['SignIn']
+
   return (
     <>
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="" src="./" />
+            {/* Google Account photoURL */}
+            <Avatar
+              alt={user?.displayName || 'Avatar'}
+              src={user?.photoURL || './default-avatar.png'}
+            />
           </IconButton>
         </Tooltip>
         <Menu
@@ -47,7 +68,10 @@ const NavOptions = () => {
           onClose={handleCloseUserMenu}
         >
           {settings.map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+            <MenuItem
+              key={setting}
+              onClick={() => handleMenuItemClick(setting)}
+            >
               <Typography textAlign="center">{setting}</Typography>
             </MenuItem>
           ))}
@@ -56,4 +80,5 @@ const NavOptions = () => {
     </>
   )
 }
+
 export default NavOptions

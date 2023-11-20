@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './index.css'
 
 import Home from './pages/Home'
 import Contact from './pages/Contact'
 import Error from './pages/Error'
 import SharedLayout from './components/SharedLayout'
-import { About } from './pages/About'
+import About from './pages/About'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import UserProfile from './pages/UserProfile'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: 'contact',
         element: <Contact />,
+      },
+      {
+        path: 'user-profile',
+        element: (
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '*',

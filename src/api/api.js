@@ -54,6 +54,51 @@ function _clearSounds(rawDatas) {
   })
 }
 
+export const getSoundById = async (soundId) => {
+  if (!soundId) {
+    console.error('Invalid sound ID:', soundId)
+    return null
+  }
+  try {
+    const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/?${FIELDS}&token=${API_KEY}`
+    const response = await axios.get(endpoint)
+    // i use _clearSounds to format the sound data as i did with getAllSounds function
+    const formattedSound = _clearSounds([response.data])
+    // Wrap in an array to use _clearSounds
+    return formattedSound[0]
+    // _clearSounds returns an array, so i take the first element
+  } catch (error) {
+    console.error(`Error fetching sound details for ID ${soundId}: `, error)
+    return null
+  }
+}
+
+const downloadSound = async (soundId) => {
+  try {
+    const endpoint = `https://freesound.org/people/rentless/sounds/${soundId}/`
+    // const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/download/`
+    const response = await axios.get(endpoint)
+  } catch (err) {
+    console.error(`Error fetching sound details for ID ${soundId}: `, err)
+    return null
+  }
+}
+
+// export const getSoundById = async (soundId) => {
+//   if (!soundId) {
+//     console.error('Invalid sound ID:', soundId)
+//     return null
+//   }
+//   try {
+//     const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/?descriptors=lowlevel.mfcc,rhythm.bpm&token=${API_KEY}`
+//     const response = await axios.get(endpoint)
+//     return response.data
+//   } catch (error) {
+//     console.error(`Error fetching sound details for ID ${soundId}: `, error)
+//     return null
+//   }
+// }
+
 // export const searchSounds = async (searchTerm) => {
 //   const endpoint = `${BASE_URL}?query=${searchTerm}`
 //   console.log('endpoint:', endpoint)

@@ -13,7 +13,7 @@ const SearchBar = ({ onSearch, searchTerm, setSearchTerm, onResetSearch }) => {
 
   const handleSearch = (event) => {
     event.preventDefault()
-    // onSearch(searchTerm)
+    onSearch(searchTerm)
   }
 
   return (

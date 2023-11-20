@@ -1,62 +1,17 @@
 import React, { useState } from 'react'
-import {
-  Card,
-  CardMedia,
-  Typography,
-  Box,
-  useTheme,
-  Fab,
-  Tooltip,
-} from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
-import CustomAudioPlayer from './AllCardElements/CustomAudioPlayer'
-import TagsComponent from './AllCardElements/TagsComponent'
-import { SoundInfo } from './AllCardElements/SoundInfo'
-import { Add } from '@mui/icons-material'
+import { Card, CardMedia, Typography, Box, useTheme } from '@mui/material'
 
-const SoundCard = ({ sound }) => {
+import CustomAudioPlayer from './soundCarElements/CustomAudioPlayer'
+import TagsComponent from './soundCarElements/TagsComponent'
+import { SoundInfo } from './soundCarElements/SoundInfo'
+import SoundName from './soundCarElements/SoundName'
+import SaveSound from './soundCarElements/SaveSoundButton'
+import RemoveSound from './soundCarElements/RemoveSoundButton'
+import DownloadSoundButton from './soundCarElements/DownloadSoundButton'
+
+export const SoundCard = ({ sound, isUserProfile }) => {
   const [showFullName, setShowFullName] = useState(false)
   const theme = useTheme()
-  const onSaveSound = (soundId) => {
-    console.log(soundId)
-  }
-
-  const handleMoreInfoClick = () => {
-    setShowFullName(!showFullName)
-  }
-
-  const soundNameLimit = (str, num) => {
-    if (showFullName || str.length <= num) {
-      return (
-        <>
-          {str}
-          {str.length > num && (
-            <Tooltip
-              title="Less Info"
-              onClick={handleMoreInfoClick}
-              style={{ cursor: 'pointer', fontSize: 'small' }}
-            >
-              <RemoveIcon fontSize="small" /> Less Info
-            </Tooltip>
-          )}
-        </>
-      )
-    }
-
-    return (
-      <>
-        {str.slice(0, num)}
-        <Tooltip
-          title="More Info"
-          onClick={handleMoreInfoClick}
-          style={{ cursor: 'pointer', fontSize: 'small' }}
-        >
-          <AddIcon fontSize="small" /> More Info
-        </Tooltip>
-      </>
-    )
-  }
 
   return (
     <Card
@@ -102,7 +57,11 @@ const SoundCard = ({ sound }) => {
               marginBottom: 2,
             }}
           >
-            {soundNameLimit(sound.name, 40)}
+            <SoundName
+              name={sound.name}
+              showFullName={showFullName}
+              toggleShowFullName={setShowFullName}
+            />
           </Typography>
           <CustomAudioPlayer src={sound.previewSound} />
         </Box>
@@ -128,6 +87,14 @@ const SoundCard = ({ sound }) => {
           }}
         >
           <TagsComponent tags={sound.tags} />
+          {isUserProfile ? (
+            <>
+              <RemoveSound sound={sound} />
+              <DownloadSoundButton sound={sound} />
+            </>
+          ) : (
+            <SaveSound sound={sound} />
+          )}
         </Box>
         <SoundInfo
           type={sound.type}

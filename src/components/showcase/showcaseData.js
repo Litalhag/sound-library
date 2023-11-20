@@ -1,26 +1,5 @@
 export const showcaseData = [
   {
-    title: 'Explore Sonic Landscapes',
-    description:
-      'Dive into an auditory journey and uncover a world of unique and captivating sounds.',
-    image: '/src/assets/sound8.jpg',
-    alt: 'Sound 8',
-  },
-  {
-    title: 'Unleash Audio Creativity',
-    description:
-      'Break free from conventional sounds and experiment with eclectic and experimental audio samples.',
-    image: '/src/assets/sound12.jpg',
-    alt: 'Sound 12',
-  },
-  {
-    title: 'Sounds That Inspire',
-    description:
-      'Let the fusion of rare and mesmerizing sounds be the catalyst for your next audio masterpiece.',
-    image: '/src/assets/sound13.jpg',
-    alt: 'Sound 13',
-  },
-  {
     title: 'Craft Your Sound',
     description:
       'Blend, mix, and forge your unique soundscapes from a diverse collection of audio samples.',
@@ -40,5 +19,26 @@ export const showcaseData = [
       'From subtle beats to heart-thumping bass lines, discover rhythms that resonate with your soul.',
     image: '/src/assets/sound10.jpg',
     alt: 'Sound 10',
+  },
+  {
+    title: 'Explore Sonic Landscapes',
+    description:
+      'Dive into an auditory journey and uncover a world of unique and captivating sounds.',
+    image: '/src/assets/sound8.jpg',
+    alt: 'Sound 8',
+  },
+  {
+    title: 'Unleash Audio Creativity',
+    description:
+      'Break free from conventional sounds and experiment with eclectic and experimental audio samples.',
+    image: '/src/assets/sound12.jpg',
+    alt: 'Sound 12',
+  },
+  {
+    title: 'Sounds That Inspire',
+    description:
+      'Let the fusion of rare and mesmerizing sounds be the catalyst for your next audio masterpiece.',
+    image: '/src/assets/sound13.jpg',
+    alt: 'Sound 13',
   },
 ]

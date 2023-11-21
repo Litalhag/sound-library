@@ -73,16 +73,16 @@ export const getSoundById = async (soundId) => {
   }
 }
 
-const downloadSound = async (soundId) => {
-  try {
-    const endpoint = `https://freesound.org/people/rentless/sounds/${soundId}/`
-    // const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/download/`
-    const response = await axios.get(endpoint)
-  } catch (err) {
-    console.error(`Error fetching sound details for ID ${soundId}: `, err)
-    return null
-  }
-}
+// const downloadSound = async (soundId) => {
+//   try {
+//     const endpoint = `https://freesound.org/people/rentless/sounds/${soundId}/`
+//     // const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/download/`
+//     const response = await axios.get(endpoint)
+//   } catch (err) {
+//     console.error(`Error fetching sound details for ID ${soundId}: `, err)
+//     return null
+//   }
+// }
 
 // export const getSoundById = async (soundId) => {
 //   if (!soundId) {

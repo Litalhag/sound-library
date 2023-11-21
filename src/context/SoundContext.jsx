@@ -62,7 +62,7 @@ export const SoundProvider = ({ children }) => {
 
   // update the 'savedSound' state
   const removeSound = (soundId) => {
-    const soundIdStr = soundId.toString() // Convert to string if it's not already
+    const soundIdStr = soundId.toString()
     setSavedSounds((prevSounds) => {
       const newSavedSounds = prevSounds.filter(
         (sound) => sound.id !== soundIdStr
@@ -72,6 +72,9 @@ export const SoundProvider = ({ children }) => {
     })
   }
 
+  const clearError = () => {
+    setError(null)
+  }
   // const downloadSound = (soundId) => {
   //   const downloadUrl = getDownloadUrl(soundId)
   //   if (!downloadUrl) {
@@ -82,10 +85,6 @@ export const SoundProvider = ({ children }) => {
   //   // Here you can either return the URL or directly trigger the download in the browser
   //   window.open(downloadUrl, '_blank')
   // }
-
-  const clearError = () => {
-    setError(null)
-  }
 
   // const addNewShoe = async (shoe) => {
   //   try {

@@ -16,7 +16,7 @@ function NavHead() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
+            component={Link}
             to="/"
             sx={{
               mr: 2,
@@ -30,6 +30,7 @@ function NavHead() {
           >
             Sound Library
           </Typography>
+
           <NavbarTabs />
 
           {/* For Responsive navbar */}

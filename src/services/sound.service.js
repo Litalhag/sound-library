@@ -77,16 +77,22 @@ export const fetchUserSavedSounds = async (soundIds) => {
   }
 }
 
-export const onRemoveSound = async (soundId, user, removeSound) => {
+export const onRemoveSound = async (
+  soundId,
+  user,
+  removeSound,
+  removeUserSavedSound
+) => {
   if (!user) {
     console.log('User must be logged in to remove sounds')
     return
   }
   const soundIdStr = soundId.toString()
-  removeSound(soundIdStr)
+  removeSound(soundIdStr) //updates local state
 
   const userDocRef = doc(db, 'user', user.uid)
-  await updateUserRemovedSoundsInFirestore(user.uid, soundIdStr)
+  await updateUserRemovedSoundsInFirestore(user.uid, soundIdStr) //updates firestore
+  removeUserSavedSound(soundId)
   console.log(`Sound with id ${soundId} removed for user ${user.uid}`)
 }
 

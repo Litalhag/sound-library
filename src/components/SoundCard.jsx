@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, CardMedia, Typography, Box, useTheme } from '@mui/material'
 
 import CustomAudioPlayer from './soundCarElements/CustomAudioPlayer'
@@ -8,9 +8,16 @@ import SoundName from './soundCarElements/SoundName'
 import SaveSound from './soundCarElements/SaveSoundButton'
 import RemoveSound from './soundCarElements/RemoveSoundButton'
 import DownloadSoundButton from './soundCarElements/DownloadSoundButton'
+import { AuthContext } from '../context/AuthContext'
 
-export const SoundCard = ({ sound, isUserProfile }) => {
+export const SoundCard = ({
+  sound,
+  isUserProfile,
+  removeSound,
+  removeUserSavedSound,
+}) => {
   const [showFullName, setShowFullName] = useState(false)
+  const { user } = useContext(AuthContext)
   const theme = useTheme()
 
   return (
@@ -34,6 +41,7 @@ export const SoundCard = ({ sound, isUserProfile }) => {
           paddingX: { xs: 2, md: 4 },
           [theme.breakpoints.up('md')]: {
             display: 'grid',
+            // gridTemplateColumns: '1fr 1fr 1fr 1fr',
             gridTemplateColumns: '2fr .5fr 2fr 1fr',
           },
         }}
@@ -81,19 +89,31 @@ export const SoundCard = ({ sound, isUserProfile }) => {
         />
         <Box
           sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between',
+            alignItems: 'center',
             marginLeft: 4,
             flexGrow: 1,
-            [theme.breakpoints.down('sm')]: { marginLeft: 0 },
+            marginRight: { xs: 2, sm: 4 },
+            [theme.breakpoints.down('sm')]: {
+              marginLeft: 0,
+              marginTop: 2,
+            },
           }}
         >
           <TagsComponent tags={sound.tags} />
           {isUserProfile ? (
             <>
-              <RemoveSound sound={sound} />
+              <RemoveSound
+                sound={sound}
+                removeSound={removeSound}
+                removeUserSavedSound={removeUserSavedSound}
+              />
               <DownloadSoundButton sound={sound} />
             </>
           ) : (
-            <SaveSound sound={sound} />
+            user && <SaveSound sound={sound} />
           )}
         </Box>
         <SoundInfo

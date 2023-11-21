@@ -86,11 +86,6 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  // const logout = () => {
-  //   localStorage.removeItem('user')
-  //   setUser(null)
-  // }
-
   const logout = async () => {
     try {
       await signOut(auth)
@@ -120,6 +115,16 @@ export const AuthProvider = ({ children }) => {
     saveUserToLocalStorage(updatedUser)
   }
 
+  const removeUserSavedSound = async (soundId) => {
+    console.log('Removing sound ID from user saved sounds:', soundId)
+    const updatedUser = {
+      ...user,
+      savedSounds: user.savedSounds.filter((id) => id !== soundId),
+    }
+    setUser(updatedUser)
+    saveUserToLocalStorage(updatedUser)
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -129,6 +134,7 @@ export const AuthProvider = ({ children }) => {
         loadUserFromLocalStorage,
         saveUserToLocalStorage,
         updateUserSavedSounds,
+        removeUserSavedSound,
       }}
     >
       {children}

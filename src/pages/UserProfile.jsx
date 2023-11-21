@@ -11,11 +11,12 @@ import {
 import { AuthContext } from '../context/AuthContext'
 import { SoundContext } from '../context/SoundContext'
 import SoundCard from '../components/SoundCard'
-import { fetchUserSavedSounds } from '../services/sound.service'
+import { fetchUserSavedSounds, onRemoveSound } from '../services/sound.service'
 
 const UserProfile = () => {
-  const { user } = useContext(AuthContext)
-  const { savedSounds, setSavedSounds } = useContext(SoundContext)
+  const { user, updateUserSavedSounds, removeUserSavedSound } =
+    useContext(AuthContext)
+  const { savedSounds, setSavedSounds, removeSound } = useContext(SoundContext)
 
   useEffect(() => {
     if (!user) {
@@ -62,7 +63,6 @@ const UserProfile = () => {
         {/* User details */}
         <Grid item xs={12} md={3} lg={2}>
           {' '}
-          {/* On 'md' screens, user details will be centered and occupy more space, on 'lg' it will be smaller */}
           <Box sx={{ textAlign: 'center', mx: 'auto' }}>
             <Avatar
               alt={user?.displayName || 'Avatar'}
@@ -80,16 +80,15 @@ const UserProfile = () => {
             </Typography>
           </Box>
         </Grid>
-        {/* Saved sounds */}
+
         <Grid item xs={12} md={9} lg={10}>
           {' '}
-          {/* On 'md' screens, sound cards will be slightly smaller, on 'lg' they will be larger */}
           <Paper
             sx={{
               padding: 4,
               mx: { xs: -2, sm: 0.5, md: 0 },
               width: '100%',
-              maxWidth: { xs: 'calc(100% - 16px)', lg: 'none' }, // Allow the Paper to fill the grid area
+              maxWidth: { xs: 'calc(100% - 16px)', lg: 'none' },
             }}
           >
             <Typography variant="h6" sx={{ mb: 2 }}>
@@ -98,8 +97,12 @@ const UserProfile = () => {
             <List sx={{ maxWidth: '100%' }}>
               {savedSounds.map((sound) => (
                 <ListItem key={sound.id}>
-                  <SoundCard sound={sound} isUserProfile={true} />
-                  {/* Placeholder for additional button */}
+                  <SoundCard
+                    sound={sound}
+                    isUserProfile={true}
+                    removeSound={removeSound}
+                    removeUserSavedSound={removeUserSavedSound}
+                  />
                 </ListItem>
               ))}
             </List>

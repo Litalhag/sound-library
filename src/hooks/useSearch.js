@@ -1,11 +1,16 @@
 import { useState, useEffect, useContext } from 'react'
 import { SoundContext } from '../context/SoundContext'
+// filterBy is ths state managing the current search
+// filterBy.text is the search term used to filter the sound data
 
-const useSearch = () => {
+const useSearch = (soundListRef) => {
+  // filterBy = object that holds multiple search categories
+  // filterBy.text = extends this object to include more search categories
   const [filterBy, setFilterBy] = useState({ text: '' })
   const [filteredSounds, setFilteredSounds] = useState([])
   const { sounds } = useContext(SoundContext)
 
+  // listens for changes in filterBy (filterBy.text), when it changes it filters the sounds based on the search term
   useEffect(() => {
     if (filterBy.text) {
       const results = sounds.filter(
@@ -20,13 +25,24 @@ const useSearch = () => {
     }
   }, [filterBy, sounds])
 
-  const handleSearch = (searchValue) => {
-    setFilterBy({ ...filterBy, text: searchValue })
+  // when this function triggered - it updates the filterBy state with a new value
+  const handleSearch = ({ target }) => {
+    const { value } = target
+    console.log('value:', value)
+    setFilterBy((prevFilterBy) => ({ ...prevFilterBy, text: value }))
   }
 
+  // clear the search term by setting filterBy.text to empty string
   const resetSearch = () => {
     setFilterBy({ ...filterBy, text: '' })
-    // setFilteredSounds(sounds)
+  }
+
+  // handles the search form getFormSubmissionInfo, includes scrolling
+  const handleSubmitSearch = (e) => {
+    e.preventDefault()
+    if (soundListRef.current) {
+      soundListRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return {
@@ -34,8 +50,7 @@ const useSearch = () => {
     filteredSounds,
     handleSearch,
     resetSearch,
-    // isLoading,
-    // error,
+    handleSubmitSearch,
   }
 }
 export default useSearch
@@ -53,9 +68,3 @@ export default useSearch
 //     )
 //   }
 // }, [filterBy, sounds])
-
-// const handleSearch = ({ target }) => {
-//   const { value } = target
-//   console.log('value:', value)
-//   setFilterBy((prevFilterBy) => ({ ...prevFilterBy, text: value }))
-// }

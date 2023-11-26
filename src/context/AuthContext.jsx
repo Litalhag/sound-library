@@ -1,7 +1,6 @@
 import { createContext, useState } from 'react'
 import { auth, provider } from '../googleSigning/config'
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
-// import { getById, db } from '../services/db.service'
 import { getById } from '../services/db.service'
 import { db } from '../services/db.service'
 import { doc, setDoc } from 'firebase/firestore'
@@ -9,7 +8,17 @@ import { doc, setDoc } from 'firebase/firestore'
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const loadUserFromLocalStorage = () => {
+    const stringUser = localStorage.getItem('user')
+    if (!stringUser) return null
+    const user = JSON.parse(stringUser)
+    return user
+  }
+
+  const [user, setUser] = useState(loadUserFromLocalStorage)
 
   const saveUserToLocalStorage = (user) => {
     console.log('user from save user from local storage', user)
@@ -25,14 +34,8 @@ export const AuthProvider = ({ children }) => {
     )
   }
 
-  const loadUserFromLocalStorage = () => {
-    const stringUser = localStorage.getItem('user')
-    if (!stringUser) return null
-    const user = JSON.parse(stringUser)
-    return user
-  }
-
   async function login() {
+    setLoading(true)
     try {
       const result = await signInWithPopup(auth, provider)
       console.log('Result:', result)
@@ -84,6 +87,7 @@ export const AuthProvider = ({ children }) => {
       const credential = GoogleAuthProvider.credentialFromError(error)
       console.log('credential:', credential)
     }
+    setLoading(false)
   }
 
   const logout = async () => {
@@ -98,17 +102,17 @@ export const AuthProvider = ({ children }) => {
   //update the user's saved sounds, called after updating the Firestore
   const updateUserSavedSounds = async (soundId) => {
     console.log(
-      'user context updateUserSavedSounds: Called updateUserSavedSounds with soundId: ',
+      'user context updateUserSavedSounds:Called updateUserSavedSounds with soundId: ',
       soundId
     )
-    const updatedUser = { ...user, savedSounds: [...user.savedSounds, soundId] }
+    const soundIdStr = soundId.toString()
+    const updatedUser = {
+      ...user,
+      savedSounds: [...user.savedSounds, soundIdStr],
+    }
     console.log(
-      'user context updateUserSavedSounds:user context: Updating user saved sounds with sound ID: ',
-      soundId
-    )
-    console.log(
-      'user context updateUserSavedSounds: user context: Updated user object: ',
-      updatedUser
+      'user context updateUserSavedSounds:Updating user saved sounds with sound ID:',
+      soundIdStr
     )
     setUser(updatedUser)
     // save to local storage
@@ -121,14 +125,20 @@ export const AuthProvider = ({ children }) => {
       ...user,
       savedSounds: user.savedSounds.filter((id) => id !== soundId),
     }
-    setUser(updatedUser)
+    console.log('Updated User after removal:', updatedUser)
+    setUser((prevUser) => ({ ...prevUser, ...updatedUser }))
     saveUserToLocalStorage(updatedUser)
   }
+  // const userDocRef = doc(db, 'user', user.uid)
+  // await updateDoc(userDocRef, {
+  //   savedSounds: arrayUnion(soundId),
+  // })
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        loading,
         login,
         logout,
         loadUserFromLocalStorage,
@@ -141,3 +151,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   )
 }
+
+// const userFromLocalStorage = localStorage.getItem('user')
+//   ? JSON.parse(localStorage.getItem('user'))
+//   : null

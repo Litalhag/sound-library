@@ -5,13 +5,16 @@ import './index.css'
 import { SoundProvider } from './context/SoundContext'
 // import { AuthContext } from './context/AuthContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { ErrorProvider } from './context/ErrorContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <SoundProvider>
-        <App />
-      </SoundProvider>
-    </AuthProvider>
+    <ErrorProvider>
+      <AuthProvider>
+        <SoundProvider>
+          <App />
+        </SoundProvider>
+      </AuthProvider>
+    </ErrorProvider>
   </React.StrictMode>
 )

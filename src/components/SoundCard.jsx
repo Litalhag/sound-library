@@ -5,8 +5,8 @@ import CustomAudioPlayer from './soundCarElements/CustomAudioPlayer'
 import TagsComponent from './soundCarElements/TagsComponent'
 import { SoundInfo } from './soundCarElements/SoundInfo'
 import SoundName from './soundCarElements/SoundName'
-import SaveSound from './soundCarElements/SaveSoundButton'
-import RemoveSound from './soundCarElements/RemoveSoundButton'
+import SaveSoundButton from './soundCarElements/SaveSoundButton'
+import RemoveSoundButton from './soundCarElements/RemoveSoundButton'
 import DownloadSoundButton from './soundCarElements/DownloadSoundButton'
 import { AuthContext } from '../context/AuthContext'
 
@@ -15,10 +15,18 @@ export const SoundCard = ({
   isUserProfile,
   removeSound,
   removeUserSavedSound,
+  isSoundSaved,
 }) => {
   const [showFullName, setShowFullName] = useState(false)
   const { user } = useContext(AuthContext)
   const theme = useTheme()
+
+  /*
+if user (logged in)
+bring user from firestore and from localStorage
+savedSound = userFromFirestore.savedSound(find -> sound.id ===sound.id)
+
+*/
 
   return (
     <Card
@@ -104,8 +112,9 @@ export const SoundCard = ({
         >
           <TagsComponent tags={sound.tags} />
           {isUserProfile ? (
+            // If it's the user profile, it shows the remove and download buttons
             <>
-              <RemoveSound
+              <RemoveSoundButton
                 sound={sound}
                 removeSound={removeSound}
                 removeUserSavedSound={removeUserSavedSound}
@@ -113,7 +122,17 @@ export const SoundCard = ({
               <DownloadSoundButton sound={sound} />
             </>
           ) : (
-            user && <SaveSound sound={sound} />
+            // Else, it checks if the sound is saved and it shows the appropriate button
+            user &&
+            (isSoundSaved ? (
+              <RemoveSoundButton
+                sound={sound}
+                removeSound={removeSound}
+                removeUserSavedSound={removeUserSavedSound}
+              />
+            ) : (
+              <SaveSoundButton sound={sound} />
+            ))
           )}
         </Box>
         <SoundInfo

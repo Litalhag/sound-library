@@ -1,5 +1,7 @@
 import React from 'react'
-import { Box, Typography, Container, Link } from '@mui/material'
+import { Box, Typography, Container, Link, Grid } from '@mui/material'
+import { ContactSections } from './ContactSections'
+import SocialMedia from './SocialMedia'
 
 const backgroundImage = '/src/assets/sound14.jpg'
 
@@ -51,16 +53,7 @@ const Contact = () => {
           feedback, or inquiries you might have. <br /> Our team is dedicated to
           providing you with the best possible experience.
         </Typography>
-        <Typography sx={{ mb: 1 }}>
-          <strong>Email:</strong> support@soundlibrary.fake
-        </Typography>
-        <Typography sx={{ mb: 1 }}>
-          <strong>Phone:</strong> +1-555-0123-4567
-        </Typography>
-        <Typography sx={{ mb: 1 }}>
-          <strong>Operating Hours:</strong> Monday - Friday: 9:00 AM - 5:00 PM
-          (EST)
-        </Typography>
+        <ContactSections />
         <Typography sx={{ mb: 3 }}>
           <strong>Mailing Address:</strong>
           <br />
@@ -73,17 +66,7 @@ const Contact = () => {
           United States
         </Typography>
         <Typography sx={{ mb: 1 }}>Connect with Us on Social Media:</Typography>
-        <Box sx={{ mb: 3 }}>
-          <Link href="#" color="inherit" sx={{ mr: 2, textDecoration: 'none' }}>
-            Facebook
-          </Link>
-          <Link href="#" color="inherit" sx={{ mr: 2, textDecoration: 'none' }}>
-            Twitter
-          </Link>
-          <Link href="#" color="inherit" sx={{ textDecoration: 'none' }}>
-            Instagram
-          </Link>
-        </Box>
+        <SocialMedia />
         <Typography sx={{ mb: 1 }}>
           For immediate assistance, please check our{' '}
           <Link href="#" color="inherit">

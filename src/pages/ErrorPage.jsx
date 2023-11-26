@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Error = ({
+const ErrorPage = ({
   message = 'The page you are looking for does not exist.',
 }) => {
   return (
@@ -11,4 +11,4 @@ const Error = ({
   )
 }
 
-export default Error
+export default ErrorPage

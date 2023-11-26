@@ -66,10 +66,10 @@ export const updateSavedSoundsInFirestore = async (userId, soundId) => {
 export const fetchUserSavedSounds = async (soundIds) => {
   try {
     const soundDetailsPromises = soundIds.map((soundId) => {
-      console.log('Fetching details for sound ID:', soundId)
       return getSoundById(soundId)
     })
     const soundDetails = await Promise.all(soundDetailsPromises)
+    console.log('Fetched sound details:', soundDetails)
     return soundDetails.filter((sound) => sound !== null)
   } catch (err) {
     console.error('Error fetching user saved sounds:', err)

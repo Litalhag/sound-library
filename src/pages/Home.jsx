@@ -1,104 +1,51 @@
-import { useState, useEffect, useContext } from 'react'
+import { useRef, useContext, useEffect } from 'react'
 import SoundList from '../components/SoundList'
 import { SoundContext } from '../context/SoundContext'
-import { AuthContext } from '../context/AuthContext'
 import HomeHeader from '../components/HomeHeader'
 import SearchBar from '../components/SearchBar'
 import ShowcaseContainer from '../components/showcase/ShowcaseContainer'
 import useSearch from '../hooks/useSearch'
+import Loader from '../components/Loader'
+import Error from '../components/Error'
+import { ErrorContext } from '../context/ErrorContext'
 
 const Home = () => {
-  const { user } = useContext(AuthContext)
-  const { sounds } = useContext(SoundContext)
-  const [searchQuery, setSearchQuery] = useState('')
-  const { filteredSounds, handleSearch, resetSearch } = useSearch()
-  // const [filteredSounds, setFilteredSounds] = useState([])
-  // const [filterBy, setFilterBy] = useState({ text: '' })
-
-  // useEffect(() => {
-  //   if (filterBy.text) {
-  //     setFilteredSounds(
-  //       sounds.filter((sound) => {
-  //         return (
-  //           sound.name.includes(filterBy.text) ||
-  //           sound.description.includes(filterBy.text) ||
-  //           sound.tags.includes(filterBy.text)
-  //         )
-  //       })
-  //     )
-  //   }
-  // }, [filterBy, sounds])
-
-  // useEffect(() => {
-  //   if (filterBy.text) {
-  //     // Scroll to the sound list when there are filtered results
-  //     document
-  //       .getElementById('soundList')
-  //       .scrollIntoView({ behavior: 'smooth' })
-  //   }
-  // }, [filteredSounds, filterBy.text])
-
-  // // replaced the target with string:
-  // const onHandleSearch = (searchValue) => {
-  //   console.log('value:', searchValue)
-  //   setFilterBy((prevFilterBy) => ({ ...prevFilterBy, text: searchValue }))
-  //   setSearchQuery(searchValue)
-  //   if (searchValue.trim()) {
-  //     document
-  //       .getElementById('soundList')
-  //       .scrollIntoView({ behavior: 'smooth' })
-  //   }
-  //   if (searchValue.trim()) {
-  //     document
-  //       .getElementById('soundList')
-  //       .scrollIntoView({ behavior: 'smooth' })
-  //   }
-  // }
-
-  // const onResetSearch = () => {
-  //   setFilterBy({ ...filterBy, text: '' })
-  //   setSearchQuery('')
-  // }
-  const onHandleSearch = (searchValue) => {
-    handleSearch(searchValue)
-    setSearchQuery(searchValue)
-    if (searchValue.trim()) {
-      document
-        .getElementById('soundList')
-        .scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
-  const onResetSearch = () => {
-    resetSearch()
-    setSearchQuery('')
-  }
+  const { sounds, isLoading, fetchSound } = useContext(SoundContext)
+  const { error } = useContext(ErrorContext)
+  const soundListRef = useRef(null)
+  const {
+    filterBy,
+    filteredSounds,
+    handleSearch,
+    resetSearch,
+    handleSubmitSearch,
+  } = useSearch(soundListRef)
 
   return (
     <main style={{ marginTop: '64px' }}>
-      {/* <input
-        type="text"
-        placeholder="Search sound"
-        onChange={onHandleSearch}
-        value={filterBy.text}
-      ></input> */}
       <SearchBar
-        searchTerm={searchQuery}
-        setSearchTerm={setSearchQuery}
-        onSearch={onHandleSearch}
-        onResetSearch={onResetSearch}
+        handleSearch={handleSearch}
+        searchTerm={filterBy.text}
+        onResetSearch={resetSearch}
+        handleSubmitSearch={handleSubmitSearch}
       />
 
       <HomeHeader style={{ marginTop: '70px' }} />
       <ShowcaseContainer />
-      {searchQuery && (
-        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+
+      {filterBy.text && (
+        <div
+          ref={soundListRef}
+          style={{ textAlign: 'center', margin: '20px 0' }}
+        >
           <h2>
-            {filteredSounds.length} results for {searchQuery}
+            {filteredSounds.length} results for {filterBy.text}
           </h2>
         </div>
       )}
 
+      {isLoading && <Loader />}
+      {error && <Error onRetry={fetchSound} />}
       {sounds && (
         <SoundList
           id="soundList"

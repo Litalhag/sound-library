@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {
   Box,
   Typography,
@@ -11,12 +11,17 @@ import {
 import { AuthContext } from '../context/AuthContext'
 import { SoundContext } from '../context/SoundContext'
 import SoundCard from '../components/SoundCard'
-import { fetchUserSavedSounds, onRemoveSound } from '../services/sound.service'
+import { fetchUserSavedSounds } from '../services/sound.service'
+import { formatDate } from '../utils/utils'
+import { ErrorContext } from '../context/ErrorContext'
+import Loader from '../components/Loader'
+import Error from '../components/Error'
 
 const UserProfile = () => {
-  const { user, updateUserSavedSounds, removeUserSavedSound } =
-    useContext(AuthContext)
-  const { savedSounds, setSavedSounds, removeSound } = useContext(SoundContext)
+  const { user, removeUserSavedSound } = useContext(AuthContext)
+  const { savedSounds, setSavedSounds, removeSound, isLoading } =
+    useContext(SoundContext)
+  const { error, setError } = useContext(ErrorContext)
 
   useEffect(() => {
     if (!user) {
@@ -33,20 +38,11 @@ const UserProfile = () => {
         console.log('useEffect was Fetched saved sounds: ', userSavedSounds)
       } catch (err) {
         console.log(err)
+        setError(err)
       }
     }
     fetchSavedSounds()
-  }, [user?.savedSounds, user, setSavedSounds])
-
-  const formatDate = (date) => {
-    if (!date) return 'Unknown'
-    const dateObj = date instanceof Date ? date : new Date(date.seconds * 1000)
-    return dateObj.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  }
+  }, [user?.savedSounds, user, setSavedSounds, setError])
 
   return (
     <Box
@@ -60,7 +56,6 @@ const UserProfile = () => {
       }}
     >
       <Grid container spacing={2} sx={{ maxWidth: '1200px', mx: 'auto' }}>
-        {/* User details */}
         <Grid item xs={12} md={3} lg={2}>
           {' '}
           <Box sx={{ textAlign: 'center', mx: 'auto' }}>
@@ -95,16 +90,21 @@ const UserProfile = () => {
               Saved Sounds
             </Typography>
             <List sx={{ maxWidth: '100%' }}>
-              {savedSounds.map((sound) => (
-                <ListItem key={sound.id}>
-                  <SoundCard
-                    sound={sound}
-                    isUserProfile={true}
-                    removeSound={removeSound}
-                    removeUserSavedSound={removeUserSavedSound}
-                  />
-                </ListItem>
-              ))}
+              {error && <Error onRetry={fetchUserSavedSounds} />}
+              {isLoading ? (
+                <Loader />
+              ) : (
+                savedSounds.map((sound) => (
+                  <ListItem key={sound.id}>
+                    <SoundCard
+                      sound={sound}
+                      isUserProfile={true}
+                      removeSound={removeSound}
+                      removeUserSavedSound={removeUserSavedSound}
+                    />
+                  </ListItem>
+                ))
+              )}
             </List>
           </Paper>
         </Grid>

@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, useContext } from 'react'
 import { getAllSounds, getSoundById } from '../api/api'
 import { saveSound } from '../services/sound.service'
 import { AuthContext } from './AuthContext'
+import { ErrorContext } from './ErrorContext'
 
 export const SoundContext = createContext()
 
@@ -11,16 +12,18 @@ export const SoundProvider = ({ children }) => {
   const [sounds, setSounds] = useState([])
   const [savedSounds, setSavedSounds] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const { error, setError } = useContext(ErrorContext)
 
   const fetchSound = async () => {
     try {
+      // throw new Error('Simulated error')
       const soundData = await getAllSounds()
-      // console.log(soundData)
+      console.log(soundData)
       setSounds(soundData)
       setIsLoading(false)
     } catch (err) {
-      setError(err.message)
+      console.log('Error:', err)
+      setError(err)
       setIsLoading(false)
     }
   }
@@ -72,49 +75,10 @@ export const SoundProvider = ({ children }) => {
     })
   }
 
-  const clearError = () => {
-    setError(null)
-  }
-  // const downloadSound = (soundId) => {
-  //   const downloadUrl = getDownloadUrl(soundId)
-  //   if (!downloadUrl) {
-  //     console.error('Download URL not found for sound ID:', soundId)
-  //     return
-  //   }
-
-  //   // Here you can either return the URL or directly trigger the download in the browser
-  //   window.open(downloadUrl, '_blank')
-  // }
-
-  // const addNewShoe = async (shoe) => {
-  //   try {
-  //     const newShoe = await addShoe(shoe)
-  //     setShoes((prevShoes) => [...prevShoes, newShoe])
-  //     showToast('Shoe added successfully')
-  //   } catch (err) {
-  //     setError(err.message)
-  //   }
-  //}
-
-  // const editShoe = async (shoeData) => {
-  //   try {
-  //     const updatedShoe = await updateShoe(shoeData, shoeData.id)
-  //     setShoes((prevShoes) =>
-  //       prevShoes.map((shoe) => (shoe.id === shoeData.id ? updatedShoe : shoe))
-  //     )
-  //     showToast('Shoe updated successfully')
-  //   } catch (err) {
-  //     setError(err.message)
-  //   }
-  // }
-
-  // const removeShoe = async (id) => {
-  //   try {
-  //     await deleteShoe(id)
-  //     setShoes((prevShoes) => prevShoes.filter((shoe) => shoe.id !== id))
-  //     showToast('Shoe deleted successfully')
-  //   } catch (err) {
-  //     setError(err.message)
+  // const clearError = (callback = null) => {
+  //   setError(null)
+  //   if (callback) {
+  //     callback()
   //   }
   // }
 
@@ -128,14 +92,54 @@ export const SoundProvider = ({ children }) => {
         setSavedSounds,
         fetchSound,
         isLoading,
-        error,
-        clearError,
       }}
     >
       {children}
     </SoundContext.Provider>
   )
 }
+// const downloadSound = (soundId) => {
+//   const downloadUrl = getDownloadUrl(soundId)
+//   if (!downloadUrl) {
+//     console.error('Download URL not found for sound ID:', soundId)
+//     return
+//   }
+
+//   // Here you can either return the URL or directly trigger the download in the browser
+//   window.open(downloadUrl, '_blank')
+// }
+
+// const addNewShoe = async (shoe) => {
+//   try {
+//     const newShoe = await addShoe(shoe)
+//     setShoes((prevShoes) => [...prevShoes, newShoe])
+//     showToast('Shoe added successfully')
+//   } catch (err) {
+//     setError(err.message)
+//   }
+//}
+
+// const editShoe = async (shoeData) => {
+//   try {
+//     const updatedShoe = await updateShoe(shoeData, shoeData.id)
+//     setShoes((prevShoes) =>
+//       prevShoes.map((shoe) => (shoe.id === shoeData.id ? updatedShoe : shoe))
+//     )
+//     showToast('Shoe updated successfully')
+//   } catch (err) {
+//     setError(err.message)
+//   }
+// }
+
+// const removeShoe = async (id) => {
+//   try {
+//     await deleteShoe(id)
+//     setShoes((prevShoes) => prevShoes.filter((shoe) => shoe.id !== id))
+//     showToast('Shoe deleted successfully')
+//   } catch (err) {
+//     setError(err.message)
+//   }
+// }
 
 // const showToast = (message) => {
 //   toast.success(message, {

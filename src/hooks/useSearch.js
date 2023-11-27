@@ -1,70 +1,46 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { SoundContext } from '../context/SoundContext'
-// filterBy is ths state managing the current search
-// filterBy.text is the search term used to filter the sound data
 
-const useSearch = (soundListRef) => {
-  // filterBy = object that holds multiple search categories
-  // filterBy.text = extends this object to include more search categories
-  const [filterBy, setFilterBy] = useState({ text: '' })
+const useSearch = () => {
+  // filterBy=Stores the current term used for displaying search results, updated when a search is submitted.
+  const [filterBy, setFilterBy] = useState('')
   const [filteredSounds, setFilteredSounds] = useState([])
   const { sounds } = useContext(SoundContext)
 
-  // listens for changes in filterBy (filterBy.text), when it changes it filters the sounds based on the search term
-  useEffect(() => {
-    if (filterBy.text) {
-      const results = sounds.filter(
-        (sound) =>
-          sound.name.includes(filterBy.text) ||
-          sound.description.includes(filterBy.text) ||
-          sound.tags.includes(filterBy.text)
-      )
-      setFilteredSounds(results)
-    } else {
-      setFilteredSounds(sounds)
-    }
-  }, [filterBy, sounds])
+  // useEffect(())
 
-  // when this function triggered - it updates the filterBy state with a new value
-  const handleSearch = ({ target }) => {
-    const { value } = target
-    console.log('value:', value)
-    setFilterBy((prevFilterBy) => ({ ...prevFilterBy, text: value }))
-  }
-
-  // clear the search term by setting filterBy.text to empty string
+  // clearing filterBy and filteredSounds
   const resetSearch = () => {
-    setFilterBy({ ...filterBy, text: '' })
+    console.log('Resetting search')
+    setFilterBy('')
+    setFilteredSounds([])
   }
 
-  // handles the search form getFormSubmissionInfo, includes scrolling
-  const handleSubmitSearch = (e) => {
-    e.preventDefault()
-    if (soundListRef.current) {
-      soundListRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
+  // triggered when a search is submitted
+  //updates filterBy with the new search term,
+  // filters the sounds based on this term, and updates filteredSounds with the results.
+  const handleSubmitSearch = (searchTerm) => {
+    console.log('Search term in hook:', searchTerm)
+    setFilterBy(searchTerm) // Continue to update filterBy for display purposes
+
+    const results = searchTerm
+      ? sounds.filter(
+          (sound) =>
+            sound.name.includes(searchTerm) ||
+            sound.description.includes(searchTerm) ||
+            sound.tags.includes(searchTerm)
+        )
+      : sounds
+
+    setFilteredSounds(results)
   }
 
   return {
     filterBy,
     filteredSounds,
-    handleSearch,
+    // handleSearch,
     resetSearch,
     handleSubmitSearch,
   }
 }
 export default useSearch
-
-// useEffect(() => {
-//   if (filterBy.text) {
-//     setFilteredSounds(
-//       sounds.filter((sound) => {
-//         return (
-//           sound.name.includes(filterBy.text) ||
-//           sound.description.includes(filterBy.text) ||
-//           sound.tags.includes(filterBy.text)
-//         )
-//       })
-//     )
-//   }
-// }, [filterBy, sounds])

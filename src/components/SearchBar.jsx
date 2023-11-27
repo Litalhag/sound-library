@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
+import _ from 'lodash'
 import { TextField, Button, InputAdornment } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { FaSearch } from 'react-icons/fa'
 
-const SearchBar = ({
-  handleSearch,
-  searchTerm,
-  resetSearch,
-  handleSubmitSearch,
-}) => {
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  // }
+const SearchBar = ({ handleSubmitSearch }) => {
+  const [localSearchTerm, setLocalSearchTerm] = useState('')
+
+  //triggered on every change in the search input and updated local state
+  const handleLocalSearchChange = (event) => {
+    console.log('Updating search term:', event.target.value)
+    setLocalSearchTerm(event.target.value)
+  }
+
+  // called when the search form is submitted using local state for global search
+  const handleLocalSubmitSearch = (e) => {
+    e.preventDefault()
+    console.log('Submitting search:', localSearchTerm)
+    handleSubmitSearch(localSearchTerm)
+  }
+
+  const handleReset = () => {
+    console.log('Resetting search')
+    setLocalSearchTerm('')
+    // onResetSearch()
+  }
 
   return (
     <form
-      onSubmit={handleSubmitSearch}
+      onSubmit={handleLocalSubmitSearch}
       style={{
         display: 'grid',
         gridTemplateColumns: 'auto auto auto',
@@ -28,10 +41,11 @@ const SearchBar = ({
       }}
     >
       <TextField
+        id="searchInput"
         type="text"
         placeholder="Search for sounds..."
-        value={searchTerm}
-        onChange={handleSearch}
+        value={localSearchTerm} //needs to be reset while i press reset
+        onChange={handleLocalSearchChange}
         variant="outlined"
         size="small"
         sx={{ backgroundColor: 'grey.100' }}
@@ -63,7 +77,7 @@ const SearchBar = ({
       <Button
         type="button"
         variant="contained"
-        onClick={resetSearch}
+        onClick={handleReset}
         sx={{
           background: '#1e1c1c',
           border: '1px solid #969090',

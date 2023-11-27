@@ -1,4 +1,4 @@
-import { useRef, useContext, useEffect } from 'react'
+import { useRef, useContext, useEffect, useState } from 'react'
 import SoundList from '../components/SoundList'
 import { SoundContext } from '../context/SoundContext'
 import HomeHeader from '../components/HomeHeader'
@@ -13,19 +13,19 @@ const Home = () => {
   const { sounds, isLoading, fetchSound } = useContext(SoundContext)
   const { error } = useContext(ErrorContext)
   const soundListRef = useRef(null)
-  const {
-    filterBy,
-    filteredSounds,
-    handleSearch,
-    resetSearch,
-    handleSubmitSearch,
-  } = useSearch(soundListRef)
+  const { filterBy, filteredSounds, resetSearch, handleSubmitSearch } =
+    useSearch()
+
+  useEffect(() => {
+    if (filteredSounds.length > 0 && soundListRef.current) {
+      soundListRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [filteredSounds])
 
   return (
     <main style={{ marginTop: '64px' }}>
       <SearchBar
-        handleSearch={handleSearch}
-        searchTerm={filterBy.text}
+        filterBy={filterBy}
         onResetSearch={resetSearch}
         handleSubmitSearch={handleSubmitSearch}
       />
@@ -33,14 +33,22 @@ const Home = () => {
       <HomeHeader style={{ marginTop: '70px' }} />
       <ShowcaseContainer />
 
-      {filterBy.text && (
+      {filterBy && (
         <div
           ref={soundListRef}
-          style={{ textAlign: 'center', margin: '20px 0' }}
+          style={{
+            textAlign: 'center',
+            margin: '20px 0',
+            fontFamily: 'Roboto',
+          }}
         >
-          <h2>
-            {filteredSounds.length} results for {filterBy.text}
-          </h2>
+          {filteredSounds.length === 0 ? (
+            <h2>No results found for {filterBy}</h2>
+          ) : (
+            <h2>
+              {filteredSounds.length} results for {filterBy}
+            </h2>
+          )}
         </div>
       )}
 

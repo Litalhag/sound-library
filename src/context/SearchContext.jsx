@@ -1,7 +1,9 @@
-import { useState, useContext, useEffect } from 'react'
-import { SoundContext } from '../context/SoundContext'
+import { createContext, useCallback, useContext, useState } from 'react'
+import { SoundContext } from './SoundContext'
 
-const useSearch = () => {
+export const SearchContext = createContext()
+
+export const SearchProvider = ({ children }) => {
   // filterBy=Stores the current term used for displaying search results, updated when a search is submitted.
   const [filterBy, setFilterBy] = useState('')
   const [filteredSounds, setFilteredSounds] = useState([])
@@ -10,11 +12,11 @@ const useSearch = () => {
   // useEffect(())
 
   // clearing filterBy and filteredSounds
-  const resetSearch = () => {
+  const resetSearch = useCallback(() => {
     console.log('Resetting search')
     setFilterBy('')
     setFilteredSounds([])
-  }
+  }, [])
 
   // triggered when a search is submitted
   //updates filterBy with the new search term,
@@ -35,12 +37,11 @@ const useSearch = () => {
     setFilteredSounds(results)
   }
 
-  return {
-    filterBy,
-    filteredSounds,
-    // handleSearch,
-    resetSearch,
-    handleSubmitSearch,
-  }
+  return (
+    <SearchContext.Provider
+      value={{ filterBy, filteredSounds, resetSearch, handleSubmitSearch }}
+    >
+      {children}
+    </SearchContext.Provider>
+  )
 }
-export default useSearch

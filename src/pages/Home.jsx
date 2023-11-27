@@ -8,13 +8,13 @@ import useSearch from '../hooks/useSearch'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import { ErrorContext } from '../context/ErrorContext'
+import { SearchContext } from '../context/SearchContext'
 
 const Home = () => {
   const { sounds, isLoading, fetchSound } = useContext(SoundContext)
   const { error } = useContext(ErrorContext)
   const soundListRef = useRef(null)
-  const { filterBy, filteredSounds, resetSearch, handleSubmitSearch } =
-    useSearch()
+  const { filterBy, filteredSounds } = useContext(SearchContext)
 
   useEffect(() => {
     if (filteredSounds.length > 0 && soundListRef.current) {
@@ -24,11 +24,7 @@ const Home = () => {
 
   return (
     <main style={{ marginTop: '64px' }}>
-      <SearchBar
-        filterBy={filterBy}
-        onResetSearch={resetSearch}
-        handleSubmitSearch={handleSubmitSearch}
-      />
+      <SearchBar />
 
       <HomeHeader style={{ marginTop: '70px' }} />
       <ShowcaseContainer />

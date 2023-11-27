@@ -1,11 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import _ from 'lodash'
 import { TextField, Button, InputAdornment } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { FaSearch } from 'react-icons/fa'
+import { SearchContext } from '../context/SearchContext'
 
-const SearchBar = ({ handleSubmitSearch }) => {
+const SearchBar = () => {
   const [localSearchTerm, setLocalSearchTerm] = useState('')
+
+  const { handleSubmitSearch, resetSearch } = useContext(SearchContext)
 
   //triggered on every change in the search input and updated local state
   const handleLocalSearchChange = (event) => {
@@ -23,7 +26,7 @@ const SearchBar = ({ handleSubmitSearch }) => {
   const handleReset = () => {
     console.log('Resetting search')
     setLocalSearchTerm('')
-    // onResetSearch()
+    resetSearch()
   }
 
   return (

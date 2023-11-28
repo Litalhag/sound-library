@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Home from './pages/Home'
 import Contact from './pages/contact/Contact'
@@ -7,6 +9,7 @@ import SharedLayout from './components/SharedLayout'
 import About from './pages/about/About'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import UserProfile from './pages/UserProfile'
+import Article from './components/article/Article'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,10 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: 'article/:articleId',
+        element: <Article />,
+      },
+      {
         path: '*',
         element: <ErrorPage />,
       },
@@ -42,7 +49,12 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer position="bottom-left" />
+    </>
+  )
 }
 
 export default App

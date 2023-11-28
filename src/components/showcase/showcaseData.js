@@ -5,6 +5,7 @@ export const showcaseData = [
       'Blend, mix, and forge your unique soundscapes from a diverse collection of audio samples.',
     image: '/src/assets/sound15.jpg',
     alt: 'Sound 15',
+    articleId: 'sound15',
   },
   {
     title: 'Elevate Your Audio',
@@ -12,6 +13,7 @@ export const showcaseData = [
       'Step into a world where high-quality sounds elevate your audio production to new heights.',
     image: '/src/assets/sound7.jpg',
     alt: 'Sound 7',
+    articleId: 'sound7',
   },
   {
     title: 'The Pulse of Rhythm',
@@ -19,6 +21,7 @@ export const showcaseData = [
       'From subtle beats to heart-thumping bass lines, discover rhythms that resonate with your soul.',
     image: '/src/assets/sound10.jpg',
     alt: 'Sound 10',
+    articleId: 'sound10',
   },
   {
     title: 'Explore Sonic Landscapes',
@@ -26,6 +29,7 @@ export const showcaseData = [
       'Dive into an auditory journey and uncover a world of unique and captivating sounds.',
     image: '/src/assets/sound8.jpg',
     alt: 'Sound 8',
+    articleId: 'sound8',
   },
   {
     title: 'Unleash Audio Creativity',
@@ -33,6 +37,7 @@ export const showcaseData = [
       'Break free from conventional sounds and experiment with eclectic and experimental audio samples.',
     image: '/src/assets/sound12.jpg',
     alt: 'Sound 12',
+    articleId: 'sound12',
   },
   {
     title: 'Sounds That Inspire',
@@ -40,5 +45,6 @@ export const showcaseData = [
       'Let the fusion of rare and mesmerizing sounds be the catalyst for your next audio masterpiece.',
     image: '/src/assets/sound13.jpg',
     alt: 'Sound 13',
+    articleId: 'sound13',
   },
 ]

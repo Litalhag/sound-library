@@ -4,17 +4,20 @@ import { SoundContext } from '../context/SoundContext'
 import HomeHeader from '../components/HomeHeader'
 import SearchBar from '../components/SearchBar'
 import ShowcaseContainer from '../components/showcase/ShowcaseContainer'
-import useSearch from '../hooks/useSearch'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import { ErrorContext } from '../context/ErrorContext'
 import { SearchContext } from '../context/SearchContext'
+import { Fab } from '@mui/material'
+import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded'
 
 const Home = () => {
   const { sounds, isLoading, fetchSound } = useContext(SoundContext)
-  const { error } = useContext(ErrorContext)
-  const soundListRef = useRef(null)
   const { filterBy, filteredSounds } = useContext(SearchContext)
+  const { error } = useContext(ErrorContext)
+  const [showScroll, setShowScroll] = useState(false)
+  const soundListRef = useRef(null)
+  const homeRef = useRef(null)
 
   useEffect(() => {
     if (filteredSounds.length > 0 && soundListRef.current) {
@@ -22,13 +25,28 @@ const Home = () => {
     }
   }, [filteredSounds])
 
+  useEffect(() => {
+    const checkScrollTop = () => {
+      if (!showScroll && window.pageYOffset > 400) {
+        setShowScroll(true)
+      } else if (showScroll && window.pageYOffset <= 400) {
+        setShowScroll(false)
+      }
+    }
+
+    window.addEventListener('scroll', checkScrollTop)
+    return () => window.removeEventListener('scroll', checkScrollTop)
+  }, [showScroll])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <main style={{ marginTop: '64px' }}>
       <SearchBar />
-
       <HomeHeader style={{ marginTop: '70px' }} />
       <ShowcaseContainer />
-
       {filterBy && (
         <div
           ref={soundListRef}
@@ -47,7 +65,23 @@ const Home = () => {
           )}
         </div>
       )}
-
+      <div ref={homeRef}>
+        {showScroll && (
+          <Fab
+            color="primary"
+            size="small"
+            onClick={scrollToTop}
+            style={{
+              position: 'fixed',
+              bottom: 20,
+              right: 20,
+              background: '#1c1e1e',
+            }}
+          >
+            <ArrowCircleUpRoundedIcon />
+          </Fab>
+        )}
+      </div>
       {isLoading && <Loader />}
       {error && <Error onRetry={fetchSound} />}
       {sounds && (

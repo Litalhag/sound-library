@@ -4,8 +4,16 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { Button, CardActionArea, CardActions } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { copyUrlToClipboard } from '../../utils/utils'
 
-const ShowcaseCard = ({ title, description, image, alt }) => {
+const ShowcaseCard = ({ title, description, image, alt, articleId }) => {
+  const navigate = useNavigate()
+
+  const handleLearnMoreSubmit = () => {
+    navigate(`/article/${articleId}`)
+  }
+
   return (
     <Card
       sx={{
@@ -34,8 +42,12 @@ const ShowcaseCard = ({ title, description, image, alt }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={copyUrlToClipboard}>
+          Share
+        </Button>
+        <Button size="small" onClick={handleLearnMoreSubmit}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   )

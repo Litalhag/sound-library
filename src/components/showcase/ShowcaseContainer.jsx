@@ -20,6 +20,7 @@ const ShowcaseContainer = () => {
           description={card.description}
           image={card.image}
           alt={card.alt}
+          articleId={card.articleId}
         />
       ))}
     </Box>
@@ -27,20 +28,3 @@ const ShowcaseContainer = () => {
 }
 
 export default ShowcaseContainer
-
-// import { useNavigate } from 'react-router-dom'
-//(
-// const navigate = useNavigate()
-
-// const goToSoundList = () => {
-//   navigate('/sound-list')
-// }
-
-//   <Button
-//     variant="contained"
-//     sx={{ background: '#4ED448', padding: '0.7rem' }}
-//     onClick={goToSoundList}
-//   >
-//     Explore Sounds
-//   </Button>
-// )

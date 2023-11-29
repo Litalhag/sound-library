@@ -7,7 +7,7 @@ import Contact from './pages/contact/Contact'
 import SharedLayout from './components/SharedLayout'
 import About from './pages/about/About'
 import { ProtectedRoute } from './components/ProtectedRoute'
-import UserProfile from './pages/UserProfile'
+import UserProfile from './pages/userProfile/UserProfile'
 import Article from './components/article/Article'
 import PageNotFound from './pages/PageNotFound'
 

@@ -15,10 +15,15 @@ export const ContentBox = styled(Box)(({ theme }) => ({
   width: '100%',
   alignItems: 'center',
   marginBottom: '16px',
+  paddingLeft: '10px',
   paddingX: { xs: '16px', md: '32px' },
   [theme.breakpoints.up('md')]: {
     display: 'grid',
-    gridTemplateColumns: '2fr 0.5fr 2fr 1fr',
+    gridTemplateColumns: '2.5fr 1fr 2fr 1fr 1fr',
+  },
+  [theme.breakpoints.down('md')]: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 }))
 
@@ -28,6 +33,11 @@ export const InfoBox = styled(Box)(({ theme }) => ({
   width: { xs: '100%', md: 'calc(100% - 60rem)' },
   alignItems: { xs: 'center', md: 'flex-start' },
   textAlign: { xs: 'center', md: 'left' },
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
 }))
 
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
@@ -48,6 +58,8 @@ export const ActionBox = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   marginRight: { xs: '16px', sm: '32px' },
   [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    justifyContent: 'center',
     marginLeft: 0,
     marginTop: '16px',
   },

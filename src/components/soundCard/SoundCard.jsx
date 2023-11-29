@@ -48,8 +48,9 @@ export const SoundCard = ({
           alt={`Waveform for ${sound.name}`}
         />
 
+        <TagsComponent tags={sound.tags} />
+
         <ActionBox>
-          <TagsComponent tags={sound.tags} />
           {isUserProfile ? (
             <>
               <RemoveSoundButton

@@ -16,9 +16,17 @@ const Home = () => {
   const { sounds, isLoading, fetchSound } = useContext(SoundContext)
   const { filterBy, filteredSounds } = useContext(SearchContext)
   const { error } = useContext(ErrorContext)
+  const [initialLoad, setInitialLoad] = useState(true)
   const [showScroll, setShowScroll] = useState(false)
   const soundListRef = useRef(null)
   const homeRef = useRef(null)
+
+  useEffect(() => {
+    if (initialLoad) {
+      window.scrollTo(0, 0)
+      setInitialLoad
+    }
+  }, [initialLoad])
 
   useEffect(() => {
     if (filteredSounds.length > 0) {
@@ -75,7 +83,7 @@ const Home = () => {
             onClick={scrollToTop}
             style={{
               position: 'fixed',
-              bottom: 20,
+              bottom: 100,
               right: 20,
               background: '#1c1e1e',
             }}

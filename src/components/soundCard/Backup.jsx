@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { Card, CardMedia, Typography, Box, useTheme } from '@mui/material'
-
-import CustomAudioPlayer from './soundCarElements/CustomAudioPlayer'
-import TagsComponent from './soundCarElements/TagsComponent'
-import { SoundInfo } from './soundCarElements/SoundInfo'
-import SoundName from './soundCarElements/SoundName'
-import SaveSoundButton from './soundCarElements/SaveSoundButton'
-import RemoveSoundButton from './soundCarElements/RemoveSoundButton'
-import DownloadSoundButton from './soundCarElements/DownloadSoundButton'
-import { AuthContext } from '../context/AuthContext'
+import { CustomAudioPlayer } from '../soundCarElements/CustomAudioPlayer'
+// import CustomAudioPlayer from './soundCarElements/CustomAudioPlayer'
+import TagsComponent from '../soundCarElements/TagsComponent'
+import { SoundInfo } from '../soundCarElements/SoundInfo'
+import SoundName from '../soundCarElements/SoundName'
+import SaveSoundButton from '../soundCarElements/SaveSoundButton'
+import RemoveSoundButton from '../soundCarElements/RemoveSoundButton'
+import DownloadSoundButton from '../soundCarElements/DownloadSoundButton'
+import { AuthContext } from '../../context/AuthContext'
 
 export const SoundCard = ({
   sound,

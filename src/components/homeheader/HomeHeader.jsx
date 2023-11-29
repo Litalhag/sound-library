@@ -20,7 +20,7 @@ const HomeHeader = () => {
 
   return (
     <HeaderBox>
-      <ImageBox component="img" alt="Home image" src="/src/assets/sound5.jpg" />
+      <ImageBox component="img" alt="Home image" src="/images/sound5.jpg" />
       <OverlayBox>
         <IconTypographyBox>
           <StyledGraphicEqIcon />

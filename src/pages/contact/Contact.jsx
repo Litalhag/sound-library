@@ -1,9 +1,9 @@
 import React from 'react'
-import { Box, Typography, Container, Link, Grid } from '@mui/material'
+import { Box, Typography, Container, Link } from '@mui/material'
 import { ContactSections } from './ContactSections'
 import SocialMedia from './SocialMedia'
 
-const backgroundImage = '/src/assets/sound14.jpg'
+const backgroundImage = '/images/sound14.jpg'
 
 const Contact = () => {
   return (

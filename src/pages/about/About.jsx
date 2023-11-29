@@ -6,7 +6,7 @@ import AboutIntro from './AboutIntro'
 import AboutOuter from './AboutOuter'
 
 const About = () => {
-  const backgroundImage = '/src/assets/sound2.jpg'
+  const backgroundImage = '/images/sound2.jpg'
 
   return (
     <Box

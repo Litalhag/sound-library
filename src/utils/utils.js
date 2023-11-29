@@ -30,6 +30,12 @@ export const copyUrlToClipboard = () => {
     })
 }
 
+export const scrollToRef = (ref) => {
+  if (ref && ref.current) {
+    ref.current.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 export const formatDate = (date) => {
   if (!date) return 'Unknown'
   const dateObj = date instanceof Date ? date : new Date(date.seconds * 1000)

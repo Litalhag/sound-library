@@ -4,12 +4,12 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import Home from './pages/Home'
 import Contact from './pages/contact/Contact'
-import ErrorPage from './pages/ErrorPage'
 import SharedLayout from './components/SharedLayout'
 import About from './pages/about/About'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import UserProfile from './pages/UserProfile'
 import Article from './components/article/Article'
+import PageNotFound from './pages/PageNotFound'
 
 const router = createBrowserRouter([
   {
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <ErrorPage />,
+        element: <PageNotFound />,
       },
     ],
   },

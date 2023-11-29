@@ -3,7 +3,6 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq'
 import { Box, Typography, Button } from '@mui/material'
 
 const HomeHeader = () => {
-  // To add to utils file that doesn't exist yet
   const handleExploreSoundsClick = () => {
     const element = document.getElementById('soundList')
     console.log(element)

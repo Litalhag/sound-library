@@ -1,12 +1,10 @@
 import { useContext } from 'react'
 import { ErrorContext } from '../context/ErrorContext'
-import SoundCard from './SoundCard'
+import SoundCard from './soundCard/SoundCard'
 import { SoundContext } from '../context/SoundContext'
 import { AuthContext } from '../context/AuthContext'
-import { Alert, AlertTitle, Button } from '@mui/material'
-import Error from './Error'
 
-const SoundList = ({ sounds }) => {
+const SoundList = ({ sounds }, ref) => {
   const { removeSound, fetchSound } = useContext(SoundContext)
   const { error, clearError } = useContext(ErrorContext)
   const { user } = useContext(AuthContext)

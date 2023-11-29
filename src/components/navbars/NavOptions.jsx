@@ -40,7 +40,6 @@ const NavOptions = () => {
     setAnchorElUser(null)
   }
 
-  // const settings = user ? ['Profile', 'Logout'] : ['SignIn']
   const settings = user ? ['Profile', 'Logout'] : []
 
   return (

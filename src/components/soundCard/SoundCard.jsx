@@ -1,21 +1,21 @@
 import React, { useContext, useState } from 'react'
-import CustomAudioPlayer from './soundCarElements/CustomAudioPlayer'
-import TagsComponent from './soundCarElements/TagsComponent'
-import { SoundInfo } from './soundCarElements/SoundInfo'
-import SoundName from './soundCarElements/SoundName'
-import SaveSoundButton from './soundCarElements/SaveSoundButton'
-import RemoveSoundButton from './soundCarElements/RemoveSoundButton'
-import DownloadSoundButton from './soundCarElements/DownloadSoundButton'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
+import CustomAudioPlayer from '../soundCarElements/CustomAudioPlayer'
+import TagsComponent from '../soundCarElements/TagsComponent'
+import { SoundInfo } from '../soundCarElements/SoundInfo'
+import SoundName from '../soundCarElements/SoundName'
+import SaveSoundButton from '../soundCarElements/SaveSoundButton'
+import RemoveSoundButton from '../soundCarElements/RemoveSoundButton'
+import DownloadSoundButton from '../soundCarElements/DownloadSoundButton'
 import { useTheme } from '@mui/material'
 import {
   StyledCard,
-  StyledBox,
-  StyledTextContainer,
-  StyledTypography,
+  ContentBox,
+  InfoBox,
   StyledCardMedia,
-  StyledBoxActions,
-} from './SoundCard.styles'
+  ActionBox,
+  StyledTypography,
+} from './SoundCardStyle'
 
 export const SoundCard = ({
   sound,
@@ -29,10 +29,10 @@ export const SoundCard = ({
   const theme = useTheme()
 
   return (
-    <StyledCard theme={theme}>
-      <StyledBox theme={theme}>
-        <StyledTextContainer theme={theme}>
-          <StyledTypography component="div" variant="h6" noWrap theme={theme}>
+    <StyledCard>
+      <ContentBox>
+        <InfoBox>
+          <StyledTypography variant="h6" component="div" noWrap>
             <SoundName
               name={sound.name}
               showFullName={showFullName}
@@ -40,16 +40,15 @@ export const SoundCard = ({
             />
           </StyledTypography>
           <CustomAudioPlayer src={sound.previewSound} />
-        </StyledTextContainer>
+        </InfoBox>
 
         <StyledCardMedia
           component="img"
-          theme={theme}
           image={sound.imageUrl}
           alt={`Waveform for ${sound.name}`}
         />
 
-        <StyledBoxActions theme={theme}>
+        <ActionBox>
           <TagsComponent tags={sound.tags} />
           {isUserProfile ? (
             <>
@@ -72,14 +71,14 @@ export const SoundCard = ({
               <SaveSoundButton sound={sound} />
             ))
           )}
-        </StyledBoxActions>
+        </ActionBox>
 
         <SoundInfo
           type={sound.type}
           created={sound.created}
           duration={sound.duration}
         />
-      </StyledBox>
+      </ContentBox>
     </StyledCard>
   )
 }

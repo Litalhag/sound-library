@@ -21,13 +21,6 @@ export const SoundCard = ({
   const { user } = useContext(AuthContext)
   const theme = useTheme()
 
-  /*
-if user (logged in)
-bring user from firestore and from localStorage
-savedSound = userFromFirestore.savedSound(find -> sound.id ===sound.id)
-
-*/
-
   return (
     <Card
       sx={{
@@ -49,12 +42,10 @@ savedSound = userFromFirestore.savedSound(find -> sound.id ===sound.id)
           paddingX: { xs: 2, md: 4 },
           [theme.breakpoints.up('md')]: {
             display: 'grid',
-            // gridTemplateColumns: '1fr 1fr 1fr 1fr',
             gridTemplateColumns: '2fr .5fr 2fr 1fr',
           },
         }}
       >
-        {/* Container for text and audio */}
         <Box
           sx={{
             display: 'flex',
@@ -112,7 +103,6 @@ savedSound = userFromFirestore.savedSound(find -> sound.id ===sound.id)
         >
           <TagsComponent tags={sound.tags} />
           {isUserProfile ? (
-            // If it's the user profile, it shows the remove and download buttons
             <>
               <RemoveSoundButton
                 sound={sound}
@@ -122,7 +112,6 @@ savedSound = userFromFirestore.savedSound(find -> sound.id ===sound.id)
               <DownloadSoundButton sound={sound} />
             </>
           ) : (
-            // Else, it checks if the sound is saved and it shows the appropriate button
             user &&
             (isSoundSaved ? (
               <RemoveSoundButton

@@ -6,17 +6,14 @@ import { FaSearch } from 'react-icons/fa'
 import { SearchContext } from '../context/SearchContext'
 
 const SearchBar = () => {
+  const { handleSubmitSearch, resetSearch } = useContext(SearchContext)
   const [localSearchTerm, setLocalSearchTerm] = useState('')
 
-  const { handleSubmitSearch, resetSearch } = useContext(SearchContext)
-
-  //triggered on every change in the search input and updated local state
   const handleLocalSearchChange = (event) => {
     console.log('Updating search term:', event.target.value)
     setLocalSearchTerm(event.target.value)
   }
 
-  // called when the search form is submitted using local state for global search
   const handleLocalSubmitSearch = (e) => {
     e.preventDefault()
     console.log('Submitting search:', localSearchTerm)
@@ -47,7 +44,7 @@ const SearchBar = () => {
         id="searchInput"
         type="text"
         placeholder="Search for sounds..."
-        value={localSearchTerm} //needs to be reset while i press reset
+        value={localSearchTerm}
         onChange={handleLocalSearchChange}
         variant="outlined"
         size="small"

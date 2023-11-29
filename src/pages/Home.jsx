@@ -1,8 +1,7 @@
 import { useRef, useContext, useEffect, useState } from 'react'
 import SoundList from '../components/SoundList'
 import { SoundContext } from '../context/SoundContext'
-import HomeHeader from '../components/HomeHeader'
-import SearchBar from '../components/SearchBar'
+import SearchBar from '../components/searchbar/SearchBar'
 import ShowcaseContainer from '../components/showcase/ShowcaseContainer'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
@@ -10,6 +9,8 @@ import { ErrorContext } from '../context/ErrorContext'
 import { SearchContext } from '../context/SearchContext'
 import { Fab } from '@mui/material'
 import ArrowCircleUpRoundedIcon from '@mui/icons-material/ArrowCircleUpRounded'
+import { scrollToRef } from '../utils/utils'
+import HomeHeader from '../components/homeheader/HomeHeader'
 
 const Home = () => {
   const { sounds, isLoading, fetchSound } = useContext(SoundContext)
@@ -20,8 +21,8 @@ const Home = () => {
   const homeRef = useRef(null)
 
   useEffect(() => {
-    if (filteredSounds.length > 0 && soundListRef.current) {
-      soundListRef.current.scrollIntoView({ behavior: 'smooth' })
+    if (filteredSounds.length > 0) {
+      scrollToRef(soundListRef)
     }
   }, [filteredSounds])
 
@@ -46,6 +47,7 @@ const Home = () => {
     <main style={{ marginTop: '64px' }}>
       <SearchBar />
       <HomeHeader style={{ marginTop: '70px' }} />
+
       <ShowcaseContainer />
       {filterBy && (
         <div

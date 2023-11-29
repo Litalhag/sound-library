@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { AuthContext } from '../context/AuthContext'
 import { SoundContext } from '../context/SoundContext'
-import SoundCard from '../components/SoundCard'
+import SoundCard from '../components/soundCard/SoundCard'
 import { fetchUserSavedSounds } from '../services/sound.service'
 import { formatDate } from '../utils/utils'
 import { ErrorContext } from '../context/ErrorContext'

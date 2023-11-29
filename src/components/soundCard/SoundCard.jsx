@@ -15,7 +15,7 @@ import {
   StyledCardMedia,
   ActionBox,
   StyledTypography,
-} from './SoundCardStyle'
+} from './soundCardStyle'
 
 export const SoundCard = ({
   sound,

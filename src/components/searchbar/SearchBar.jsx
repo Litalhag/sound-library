@@ -1,5 +1,3 @@
-// SearchBar.jsx
-
 import React, { useState, useContext } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { FaSearch } from 'react-icons/fa'

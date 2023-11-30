@@ -73,64 +73,27 @@ export const getSoundById = async (soundId) => {
   }
 }
 
-// const downloadSound = async (soundId) => {
-//   try {
-//     const endpoint = `https://freesound.org/people/rentless/sounds/${soundId}/`
-//     // const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/download/`
-//     const response = await axios.get(endpoint)
-//   } catch (err) {
-//     console.error(`Error fetching sound details for ID ${soundId}: `, err)
-//     return null
-//   }
-// }
+// new download function
+export const downloadSound = async (sound) => {
+  if (!sound || !sound.downloadUrl) {
+    console.error('Invalid sound or download URL not found')
+    return
+  }
 
-// export const getSoundById = async (soundId) => {
-//   if (!soundId) {
-//     console.error('Invalid sound ID:', soundId)
-//     return null
-//   }
-//   try {
-//     const endpoint = `https://freesound.org/apiv2/sounds/${soundId}/?descriptors=lowlevel.mfcc,rhythm.bpm&token=${API_KEY}`
-//     const response = await axios.get(endpoint)
-//     return response.data
-//   } catch (error) {
-//     console.error(`Error fetching sound details for ID ${soundId}: `, error)
-//     return null
-//   }
-// }
+  try {
+    const downloadUrl = `${sound.downloadUrl}?token=${API_KEY}`
+    const response = await axios.get(downloadUrl, { responseType: 'blob' })
 
-// export const searchSounds = async (searchTerm) => {
-//   const endpoint = `${BASE_URL}?query=${searchTerm}`
-//   console.log('endpoint:', endpoint)
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `${sound.name}.mp3`)
+    document.body.appendChild(link)
+    link.click()
 
-//   try {
-//     const rawData = await request('get', BASE_URL + endpoint)
-//     return clearSounds(rawData)
-//   } catch (error) {
-//     console.error('Error searching sounds:', error)
-//     throw error
-//   }
-// }
-
-// export const searchSounds = async (searchTerm) => {
-//   const encodedSearchTerm = encodeURIComponent(searchTerm)
-//   const endpoint = `/search/text/?query=${encodedSearchTerm}${FIELDS}&token=${API_KEY}`
-//   const rawData = await request('get', endpoint)
-//   return clearSounds(rawData)
-// }
-
-// export const getShoe = async (shoeId) => {
-//   return await request('get', `/${shoeId}`)
-// }
-
-// export const updateShoe = async (shoe, shoeId) => {
-//   return await request('put', `/${shoeId}`, shoe)
-// }
-
-// export const addShoe = async (shoe) => {
-//   return await request('post', '/', shoe)
-// }
-
-// export const deleteShoe = async (shoeId) => {
-//   return await request('delete', `/${shoeId}`)
-// }
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  } catch (error) {
+    console.error('Error downloading sound:', error)
+  }
+}

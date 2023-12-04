@@ -46,22 +46,6 @@ export const getById = async (collectionName, id) => {
     console.error('Error adding document: ', err)
   }
 }
-// export const getById = async (collectionName, id) => {
-//   try {
-//     const docRef = doc(db, collectionName, id)
-//     const docSnap = await getDoc(docRef)
-
-//     if (docSnap.exists()) {
-//       console.log('Document data:', docSnap.data())
-//       return { id: docSnap.id, ...docSnap.data() }
-//     } else {
-//       console.log('No such document!')
-//       return null
-//     }
-//   } catch (err) {
-//     console.error('Error fetching document: ', err)
-//   }
-// }
 
 const _getCollection = (collectionName) => {
   return collection(db, collectionName)

@@ -31,7 +31,7 @@ const UserProfile = () => {
     const fetchSavedSounds = async () => {
       try {
         console.log('useEffect try Fetching saved sounds for user: ', user)
-        // fetching the latest saved sound IDs
+        // fetching latest saved sound IDs
         const userSavedSoundIds = user.savedSounds
         const userSavedSounds = await fetchUserSavedSounds(userSavedSoundIds)
         setSavedSounds(userSavedSounds)

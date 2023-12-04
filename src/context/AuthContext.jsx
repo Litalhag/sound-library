@@ -151,7 +151,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   )
 }
-
-// const userFromLocalStorage = localStorage.getItem('user')
-//   ? JSON.parse(localStorage.getItem('user'))
-//   : null

@@ -10,13 +10,11 @@ const SaveSoundButton = ({ sound }) => {
 
   const handleAddSound = async () => {
     await addSound(sound)
-    updateUserSavedSounds(sound.id) // Call this after updating Firestore
+    updateUserSavedSounds(sound.id) // Calling after updating Firestore
   }
 
   return (
     <Tooltip title="Save Sound">
-      {/* <IconButton onClick={() => addSound(sound)}> */}
-      {/* changed onClick to handleAddSound */}
       <IconButton onClick={handleAddSound}>
         <AddCircleOutlineIcon color="action" sx={{ fontSize: 'medium' }} />
       </IconButton>

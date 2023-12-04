@@ -3,7 +3,6 @@ import { Typography, Box } from '@mui/material'
 export const SoundInfo = (sound) => {
   return (
     <Box>
-      {/* sx={{ [theme.breakpoints.down('sm')]: { display: 'none' } }} */}
       <Typography variant="body2" color="text.secondary">
         Type: {sound.type}
       </Typography>

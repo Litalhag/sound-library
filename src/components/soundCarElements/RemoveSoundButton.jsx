@@ -5,15 +5,11 @@ import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 
 const RemoveSoundButton = ({ sound, removeSound }) => {
-  // removeUserSavedSound was a prop in this component
   const { user, removeUserSavedSound } = useContext(AuthContext)
 
-  // const handleRemoveSound = () => {
-  //   onRemoveSound(sound.id, user, removeSound, removeUserSavedSound)
-  // }
   const handleRemoveSound = async () => {
     await onRemoveSound(sound.id, user, removeSound, removeUserSavedSound)
-    removeUserSavedSound(sound.id.toString()) // Call this after updating Firestore
+    removeUserSavedSound(sound.id.toString()) // Calling after updating Firestore
   }
 
   return (

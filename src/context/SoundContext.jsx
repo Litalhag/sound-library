@@ -32,9 +32,6 @@ export const SoundProvider = ({ children }) => {
     fetchSound()
   }, [])
 
-  // i need to ensure these functions are properly called when a sound is saved or removed.
-  // This will update the savedSounds state, causing any component that uses this state to re-render with the new data.
-
   const addSound = async (sound) => {
     // Check if the sound is already saved
     const isAlreadySaved = user.savedSounds.includes(sound.id)
@@ -75,13 +72,6 @@ export const SoundProvider = ({ children }) => {
     })
   }
 
-  // const clearError = (callback = null) => {
-  //   setError(null)
-  //   if (callback) {
-  //     callback()
-  //   }
-  // }
-
   return (
     <SoundContext.Provider
       value={{
@@ -98,57 +88,3 @@ export const SoundProvider = ({ children }) => {
     </SoundContext.Provider>
   )
 }
-// const downloadSound = (soundId) => {
-//   const downloadUrl = getDownloadUrl(soundId)
-//   if (!downloadUrl) {
-//     console.error('Download URL not found for sound ID:', soundId)
-//     return
-//   }
-
-//   // Here you can either return the URL or directly trigger the download in the browser
-//   window.open(downloadUrl, '_blank')
-// }
-
-// const addNewShoe = async (shoe) => {
-//   try {
-//     const newShoe = await addShoe(shoe)
-//     setShoes((prevShoes) => [...prevShoes, newShoe])
-//     showToast('Shoe added successfully')
-//   } catch (err) {
-//     setError(err.message)
-//   }
-//}
-
-// const editShoe = async (shoeData) => {
-//   try {
-//     const updatedShoe = await updateShoe(shoeData, shoeData.id)
-//     setShoes((prevShoes) =>
-//       prevShoes.map((shoe) => (shoe.id === shoeData.id ? updatedShoe : shoe))
-//     )
-//     showToast('Shoe updated successfully')
-//   } catch (err) {
-//     setError(err.message)
-//   }
-// }
-
-// const removeShoe = async (id) => {
-//   try {
-//     await deleteShoe(id)
-//     setShoes((prevShoes) => prevShoes.filter((shoe) => shoe.id !== id))
-//     showToast('Shoe deleted successfully')
-//   } catch (err) {
-//     setError(err.message)
-//   }
-// }
-
-// const showToast = (message) => {
-//   toast.success(message, {
-//     position: 'top-center',
-//     autoClose: 5000,
-//     hideProgressBar: false,
-//     closeOnClick: true,
-//     pauseOnHover: true,
-//     draggable: false,
-//     progress: undefined,
-//   })
-// }

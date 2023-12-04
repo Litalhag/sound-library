@@ -108,26 +108,3 @@ export const updateUserRemovedSoundsInFirestore = async (userId, soundId) => {
     throw error
   }
 }
-//--------------------------------------------------------------
-
-// export const updateSavedSoundsInFirestore = async (
-//   userId,
-//   soundId,
-//   action
-// ) => {
-//   const userDocRef = doc(db, 'user', userId)
-//   try {
-//     if (action === 'add') {
-//       await updateDoc(userDocRef, {
-//         savedSounds: arrayUnion(soundId),
-//       })
-//       console.log(`Sound ID ${soundId} added to user ${userId}`)
-//     } else if (action === 'remove') {
-//       await updateDoc(userDocRef, { savedSounds: arrayRemove(soundId) })
-//       console.log(`Sound ID ${soundId} removed from user ${userId}`)
-//     }
-//   } catch (error) {
-//     console.error('Error updating saved sounds in Firestore: ', error)
-//     throw error
-//   }
-// }

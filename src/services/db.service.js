@@ -28,6 +28,10 @@ export const saveToDb = async (collectionName, data) => {
   }
 }
 
+const _getCollection = (collectionName) => {
+  return collection(db, collectionName)
+}
+
 // CRUD- get
 export const getById = async (collectionName, id) => {
   try {
@@ -45,10 +49,6 @@ export const getById = async (collectionName, id) => {
   } catch (err) {
     console.error('Error adding document: ', err)
   }
-}
-
-const _getCollection = (collectionName) => {
-  return collection(db, collectionName)
 }
 
 // This function retrieves the array of saved sound IDs from the user's document in Firestore.

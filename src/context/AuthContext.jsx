@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // anything which doesn't use state to move to utils - both functions - localStorage
   const loadUserFromLocalStorage = () => {
     const stringUser = localStorage.getItem('user')
     if (!stringUser) return null
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem(
       'user',
       JSON.stringify({
+        // to check these lines
         ...user,
         apiKey: null,
         id: 'gYZPtxQJbnK89w2v4N6Q',
@@ -114,7 +116,7 @@ export const AuthProvider = ({ children }) => {
       'user context updateUserSavedSounds:Updating user saved sounds with sound ID:',
       soundIdStr
     )
-    setUser(updatedUser)
+    setUser(updatedUser) // to take both of set states and create a function named save user
     // save to local storage
     saveUserToLocalStorage(updatedUser)
   }

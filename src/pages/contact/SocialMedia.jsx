@@ -6,6 +6,7 @@ import TwitterIcon from '@mui/icons-material/Twitter'
 
 const SocialMedia = () => {
   return (
+    // Can also make data file and map over all of them
     <Box sx={{ mb: 3, fontFamily: 'Roboto' }}>
       <Link
         href="#"

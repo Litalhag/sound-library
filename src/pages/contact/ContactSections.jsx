@@ -7,6 +7,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule'
 export const ContactSections = () => {
   return (
     <>
+      {/* can create a data file and then map over all of them */}
       <Grid container spacing={1} alignItems="center" sx={{ mb: 1 }}>
         <Grid item>
           <MailOutlineIcon />

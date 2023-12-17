@@ -24,7 +24,7 @@ const Home = () => {
   useEffect(() => {
     if (initialLoad) {
       window.scrollTo(0, 0)
-      setInitialLoad
+      setInitialLoad(false) // set to false
     }
   }, [initialLoad])
 
@@ -47,6 +47,7 @@ const Home = () => {
     return () => window.removeEventListener('scroll', checkScrollTop)
   }, [showScroll])
 
+  // to move to utils
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -77,6 +78,7 @@ const Home = () => {
       )}
       <div ref={homeRef}>
         {showScroll && (
+          // to make this a component ScrollToTop
           <Fab
             color="primary"
             size="small"

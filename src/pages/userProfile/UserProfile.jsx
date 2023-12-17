@@ -37,7 +37,7 @@ const UserProfile = () => {
         setSavedSounds(userSavedSounds)
         console.log('useEffect was Fetched saved sounds: ', userSavedSounds)
       } catch (err) {
-        console.log(err)
+        console.log(err) // to make this console error (error.message)
         setError(err)
       }
     }
@@ -55,6 +55,7 @@ const UserProfile = () => {
         justifyContent: 'center',
       }}
     >
+      {/* to make tis a component userDetails */}
       <Grid container spacing={2} sx={{ maxWidth: '1200px', mx: 'auto' }}>
         <Grid item xs={12} md={3} lg={2}>
           {' '}
@@ -76,6 +77,7 @@ const UserProfile = () => {
           </Box>
         </Grid>
 
+        {/* to make component userSavedSounds */}
         <Grid item xs={12} md={9} lg={10}>
           {' '}
           <Paper

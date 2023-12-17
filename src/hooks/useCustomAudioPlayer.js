@@ -23,6 +23,7 @@ const useCustomAudioPlayer = () => {
     audioRef.current.volume = newValue / 100
   }
 
+  // to pass to utils file
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)

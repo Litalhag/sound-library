@@ -1,3 +1,4 @@
+// to move to services - if i want it to move automatically - to open all files that use this file
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 
